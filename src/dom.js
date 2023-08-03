@@ -9,6 +9,17 @@ const mainPage = function loadMainPage(){
 
     const newTask = document.createElement("button");
     newTask.setAttribute("id", "task-button");
+    newTask.innerText = "New Task"
+
+    const header = document.createElement("div");
+    header.setAttribute("id", "header");
+   
+    console.log("hello");
+
+    content.appendChild(projectList);
+    content.appendChild(taskList);
+    content.appendChild(header);
+    header.appendChild(newTask);
 
 }
 

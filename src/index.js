@@ -3,6 +3,13 @@ import '../dist/style.css';
 
 mainPage();
 
+//remove all childs function for removing tasks and projects
+
+function removeAllChildNodes(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+}
 
 // project display functions and project factory
 const projectFactory = (name) => {
@@ -46,7 +53,11 @@ let taskList = [defaultTask]
 
 
 function showTaskList(){
+
+    
     const taskSection = document.getElementById("task-list");
+
+    removeAllChildNodes(taskSection);
 
     for (let i = 0; i < taskList.length; i++ ){
 
@@ -60,6 +71,7 @@ function showTaskList(){
 }
 
 showTaskList();
+
 
 
 
@@ -91,9 +103,9 @@ function addTaskToProject(newTask){
 
 form.addEventListener("submit", function(event) {
 
-    let name = form['author'].value;
-    let description = form['title'].value;
-    let date = form['pages'].value;
+    let name = form['name'].value;
+    let description = form['description'].value;
+    let date = form['date'].value;
 
     let newTask = taskFactory(name, description, date);
 

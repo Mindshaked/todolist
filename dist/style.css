@@ -28,6 +28,7 @@
     grid-row : 2 / 7;
     background-color: pink;
     display: flex;
+    flex-direction:column;
 }
 
 #task-list {
@@ -55,6 +56,24 @@
 }
 
 #task-form {
+    position:absolute;
+    display: flex;
+    flex-direction: column;
+    top: 42vh;
+    left: 42vw;
+    width: auto;;
+    padding: 20px;
+    height: auto;
+    background-color: grey;
+    border-radius: 15px;
+    gap: 10px;
+    visibility:hidden;
+    z-index: 5;
+   
+    
+}
+
+#project-form {
     position:absolute;
     display: flex;
     flex-direction: column;

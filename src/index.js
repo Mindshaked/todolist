@@ -13,28 +13,59 @@ function removeAllChildNodes(parent) {
 
 // project display functions and project factory
 const projectFactory = (name) => {
-    let toDoList = [];
-    return {name, toDoList};
-
+    const listOfTask = [];
+    return {name: name, listOfTask};
 }
 
 const defaultProject = projectFactory("default-project");
 
+console.log (defaultProject);
+
+
 let projectList = [defaultProject]
 
 
+//change which project is selected
+
+let projectSelected = [];
+
+function changeProjectSelected(project){
+    projectSelected = project;
+    return projectSelected;
+}
+
+changeProjectSelected(defaultProject);
+
+
+
+//Show the projects in the projectList array
 
 function showProjectList(){
     const projectSection = document.getElementById("project-list");
 
+    removeAllChildNodes(projectSection);
+
     for (let i= 0; i < projectList.length; i++){
 
-        const projectName = document.createElement("div");
+
+        
+        let projectName = document.createElement("button");
+
         projectName.className = "projectName";
 
-        projectName.innerText = projectList[i].name;
+        projectName.innerText = projectList[i].name;      
+        
+        
+        projectName.addEventListener("click", function(event){
+            changeProjectSelected(projectList[i]);
+            showTaskList()
+            console.log(projectName);
+            console.log(projectName.listOfTask);
+            });
 
         projectSection.appendChild(projectName);
+
+    
     }
 
 }
@@ -42,14 +73,31 @@ function showProjectList(){
 
 showProjectList();
 
-//Task display and task factory
 
-const taskFactory = (name, description, date) => {
-    return  {name, description, date};
+
+
+
+
+//function to push task into project 
+
+function addTaskToProject(taskName){
+    projectSelected.listOfTask.push(taskName);
+
 }
 
-const defaultTask = taskFactory("default task", "write anything here", "02/03/2023")
-let taskList = [defaultTask]
+
+
+//Task display and task factory
+
+
+const taskFactory = (name, description, date) => {
+    const position = projectSelected.length + 1;
+    return  {name, description, date, position};
+}
+
+const defaultTask = taskFactory("default task", "write anything here", "02/03/2023");
+projectSelected.listOfTask.push(defaultTask);
+
 
 
 function showTaskList(){
@@ -59,20 +107,31 @@ function showTaskList(){
 
     removeAllChildNodes(taskSection);
 
-    for (let i = 0; i < taskList.length; i++ ){
+    console.log("proyecto seleccionado" + projectSelected.listOfTask)
+
+    for (let i = 0; i < projectSelected.listOfTask.length; i++ ){
 
         const taskName = document.createElement("div");
         taskName.className = "taskName";
 
-        taskName.innerText = taskList[i].name;
+        const eraseButton = document.createElement("button");
+        eraseButton.className = "eraseTask";
 
+        eraseTaskButton(eraseButton, i);
+
+        taskName.innerText = projectSelected.listOfTask[i].name;
+        eraseButton.innerText = "X";
+
+        taskName.appendChild(eraseButton);
         taskSection.appendChild(taskName);
     }
 }
 
 showTaskList();
 
-
+console.log("default project" + defaultProject);
+console.log("default task" + defaultTask);
+console.log("project list" + projectList)
 
 
 //form to introduce task information
@@ -92,13 +151,74 @@ function showTaskForm(){
     
 }
 
+//form to introduce project information
 
-//add task to the project array
+const projectForm = document.getElementById("project-form");
 
-function addTaskToProject(newTask){
+function showProjectForm(){
+    if (projectForm.style.visibility !== 'visible'){
 
-    taskList.push(newTask)
+        projectForm.style.visibility = 'visible';
+        
+
+    } else {
+        projectForm.style.visibility = 'hidden';
+
+    } 
+
 }
+
+
+//add project to the projectlist
+
+function addProjectToList(newProject){
+    projectList.push(newProject);
+}
+
+// form to add projects
+
+projectForm.addEventListener("submit", function(event) {
+
+    let projectName = projectForm["project-name"].value;
+    
+    console.log(projectName);
+
+    let newProject = projectFactory(projectName);
+
+    addProjectToList(newProject);
+
+
+    console.log(projectList);
+
+    event.preventDefault();
+
+    showProjectForm();
+
+    changeProjectSelected(newProject);
+
+    const defaultTask = taskFactory("default task", "write anything here", "02/03/2023");
+    projectSelected.listOfTask.push(defaultTask);
+
+    showProjectList();
+
+    showTaskList();
+
+
+
+
+
+});
+
+
+
+//remove function for TASKS
+
+function removeTaskFromProject(taskIndex){
+    projectSelected.listOfTask.splice(taskIndex,1);
+}
+
+
+
 //create a new task when the form is submitted
 
 form.addEventListener("submit", function(event) {
@@ -111,11 +231,16 @@ form.addEventListener("submit", function(event) {
 
     addTaskToProject(newTask);
 
-    console.log(taskList);
+    console.log(projectSelected);
 
     event.preventDefault();
 
-    showTaskList();;
+    showTaskList();
+
+    showProjectList();
+
+    showTaskForm();
+
 
 
 });
@@ -131,24 +256,24 @@ newTaskButton.addEventListener('click', function(e) {
 });
 
 
+//add new project button function
+
+const newProjectButton = document.getElementById("project-button");
+
+newProjectButton.addEventListener('click', function(e) {
+
+    showProjectForm();
+})
 
 
 
+//function for the button to remove THIS task
 
-let toDoList = [];
+function eraseTaskButton(eraseButton, i){
 
-
-//task constructor
-function Task(){
-    let test = 2;
-    console.log(test);
-}
-
-//Adds a task into the list
-
-function addTaskToList () {
-
-}
-
-Task();
-
+    eraseButton.addEventListener('click', function(event) {
+        let taskIndex = projectSelected.listOfTask[i].position - 1;
+        removeTaskFromProject(taskIndex);
+        showTaskList();
+    })
+};

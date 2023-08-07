@@ -7,6 +7,9 @@ const mainPage = function loadMainPage(){
     const taskList = document.createElement("div");
     taskList.setAttribute("id", "task-list");
 
+    const newTaskSection = document.createElement("div");
+    newTaskSection.setAttribute("id", "newtask-section");
+
     const newTask = document.createElement("button");
     newTask.setAttribute("id", "task-button");
     newTask.innerText = "New Task";

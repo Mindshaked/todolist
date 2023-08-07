@@ -12,10 +12,14 @@ function removeAllChildNodes(parent) {
 }
 
 // project display functions and project factory
+
 const projectFactory = (name) => {
     const listOfTask = [];
-    return {name: name, listOfTask};
+   // const position = projectList.length + 1;
+   const position = 0;
+    return {name: name, listOfTask, position};
 }
+
 
 const defaultProject = projectFactory("default-project");
 
@@ -23,6 +27,7 @@ console.log (defaultProject);
 
 
 let projectList = [defaultProject]
+
 
 
 //change which project is selected
@@ -38,6 +43,8 @@ changeProjectSelected(defaultProject);
 
 
 
+
+
 //Show the projects in the projectList array
 
 function showProjectList(){
@@ -47,23 +54,31 @@ function showProjectList(){
 
     for (let i= 0; i < projectList.length; i++){
 
-
+        const eraseButton = document.createElement("button");
+        eraseButton.className = "eraseTask";
+        eraseButton.innerText = "X";
         
-        let projectName = document.createElement("button");
+        let projectName = document.createElement("div");
 
         projectName.className = "projectName";
 
-        projectName.innerText = projectList[i].name;      
+        projectName.innerText = projectList[i].name;    
         
+        newPosition(projectList[i], i);
         
-        projectName.addEventListener("click", function(event){
+        eraseProjectButton(eraseButton, i);
+        
+        projectName.addEventListener("click", function(){
             changeProjectSelected(projectList[i]);
             showTaskList()
             console.log(projectName);
             console.log(projectName.listOfTask);
             });
-
+        
+        projectName.appendChild(eraseButton);
         projectSection.appendChild(projectName);
+
+        console.log(projectList);
 
     
     }
@@ -86,16 +101,33 @@ function addTaskToProject(taskName){
 }
 
 
+//function to assign new position once an item is erased
+
+function newPosition(item, i){
+    item.position = i + 1;
+}
+
+
 
 //Task display and task factory
 
 
-const taskFactory = (name, description, date) => {
-    const position = projectSelected.length + 1;
-    return  {name, description, date, position};
-}
+const taskFactory = (name, description, date, priority) => {
+    const position = projectSelected.listOfTask.length + 1;
+    console.log(position);
+    let taskState = "unfinished";
 
-const defaultTask = taskFactory("default task", "write anything here", "02/03/2023");
+    function taskStatus(taskState){
+        if (taskState = "unfinished"){
+            taskState = "finished";
+        } else {
+            taskState = "unfinished";
+        }
+    }
+    return  {name, description, date, position, priority, taskState, taskStatus};
+};
+
+const defaultTask = taskFactory("default task", "write anything here", "02/03/2023", "low");
 projectSelected.listOfTask.push(defaultTask);
 
 
@@ -118,6 +150,8 @@ function showTaskList(){
         eraseButton.className = "eraseTask";
 
         eraseTaskButton(eraseButton, i);
+
+        newPosition(projectSelected.listOfTask[i], i);
 
         taskName.innerText = projectSelected.listOfTask[i].name;
         eraseButton.innerText = "X";
@@ -209,12 +243,18 @@ projectForm.addEventListener("submit", function(event) {
 
 });
 
+//remove function for PROJECTS
+
+function removeProject(projectIndex){
+    projectList.splice(projectIndex, 1);
+}
+
 
 
 //remove function for TASKS
 
 function removeTaskFromProject(taskIndex){
-    projectSelected.listOfTask.splice(taskIndex,1);
+    projectSelected.listOfTask.splice(taskIndex, 1);
 }
 
 
@@ -226,8 +266,9 @@ form.addEventListener("submit", function(event) {
     let name = form['name'].value;
     let description = form['description'].value;
     let date = form['date'].value;
+    let priority = form['priority'].value;
 
-    let newTask = taskFactory(name, description, date);
+    let newTask = taskFactory(name, description, date, priority);
 
     addTaskToProject(newTask);
 
@@ -271,9 +312,21 @@ newProjectButton.addEventListener('click', function(e) {
 
 function eraseTaskButton(eraseButton, i){
 
-    eraseButton.addEventListener('click', function(event) {
+    
+    eraseButton.addEventListener('click', function() {
         let taskIndex = projectSelected.listOfTask[i].position - 1;
+        console.log(projectSelected)
         removeTaskFromProject(taskIndex);
         showTaskList();
     })
 };
+
+function eraseProjectButton(eraseButton, i){
+
+    eraseButton.addEventListener('click', function(){
+        let projectIndex = projectList[i].position - 1;
+        removeProject(projectIndex);
+        showProjectList();
+        showTaskList();
+    })
+}

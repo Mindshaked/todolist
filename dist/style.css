@@ -23,6 +23,9 @@
 
 }
 
+.eraseProject{
+    transition: all 0.3s;
+}
 #project-list {
     grid-column: 1 / 2;
     grid-row : 2 / 7;
@@ -45,15 +48,54 @@
     align-items: center;
     display: flex;
     padding-left: 15px;
+    justify-content: space-around;
+    transition: all 0.3s;
 
 }
 
-.taskName {
-    width: auto;
+.projectName:hover {
+    background-color: rgb(238, 126, 143);
+    }
+
+    
+.taskSlot {
+    width: 60%;
+    flex-wrap: wrap;
+    flex-direction: row;
     height: 4rem;
     align-items: center;
+    justify-content: space-between;
     display: flex;
     padding-left: 15px;
+}
+
+.taskCompleted {
+    opacity: 0.5;
+}
+
+.taskSlot:hover {
+    background-color: lightblue;
+    transition: 0.3s;
+}
+
+.taskIcons {
+    display: flex;
+    flex-direction: row;
+    align-items:center;
+}
+
+.taskDate {
+    margin-right: 1rem;
+    font-size: small;
+}
+
+.taskMain {
+    display:flex;
+    flex-direction:row;
+}
+
+.taskName {
+    margin-left: 0.4rem;
 }
 
 #task-form {

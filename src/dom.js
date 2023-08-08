@@ -7,6 +7,9 @@ const mainPage = function loadMainPage(){
     const taskList = document.createElement("div");
     taskList.setAttribute("id", "task-list");
 
+    const numberOfTasks = document.createElement("div");
+    numberOfTasks.setAttribute("id", "number-of-tasks");
+
     const newTaskSection = document.createElement("div");
     newTaskSection.setAttribute("id", "newtask-section");
 
@@ -21,7 +24,9 @@ const mainPage = function loadMainPage(){
     const header = document.createElement("div");
     header.setAttribute("id", "header");
    
-    console.log("hello");
+    console.log(taskList);
+    
+    taskList.appendChild(numberOfTasks);
     header.appendChild(newProject);
     content.appendChild(projectList);
     content.appendChild(taskList);

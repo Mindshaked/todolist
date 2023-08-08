@@ -1,5 +1,6 @@
 import {mainPage} from "./dom.js";
 import '../dist/style.css';
+import { compareAsc, format } from 'date-fns'
 
 mainPage();
 
@@ -22,10 +23,6 @@ const projectFactory = (name) => {
 
 
 const defaultProject = projectFactory("default-project");
-
-console.log (defaultProject);
-
-
 let projectList = [defaultProject]
 
 
@@ -54,19 +51,30 @@ function showProjectList(){
 
     for (let i= 0; i < projectList.length; i++){
 
-        const eraseButton = document.createElement("button");
-        eraseButton.className = "eraseTask";
-        eraseButton.innerText = "X";
-        
-        let projectName = document.createElement("div");
 
+        let projectName = document.createElement("div");
+              
+        
         projectName.className = "projectName";
 
         projectName.innerText = projectList[i].name;    
         
         newPosition(projectList[i], i);
         
-        eraseProjectButton(eraseButton, i);
+       
+
+        const erasePButton = document.createElement("button");
+        erasePButton.className = "eraseProject";
+        erasePButton.innerText = "X";
+        erasePButton.style.opacity = "0";
+        projectName.onmouseover = function(){
+            erasePButton.style.opacity = "1";
+        }
+        projectName.onmouseout = function(){
+            erasePButton.style.opacity = "0";
+        }
+
+        eraseProjectButton(erasePButton, i);
         
         projectName.addEventListener("click", function(){
             changeProjectSelected(projectList[i]);
@@ -75,7 +83,7 @@ function showProjectList(){
             console.log(projectName.listOfTask);
             });
         
-        projectName.appendChild(eraseButton);
+        projectName.appendChild(erasePButton);
         projectSection.appendChild(projectName);
 
         console.log(projectList);
@@ -114,58 +122,86 @@ function newPosition(item, i){
 
 const taskFactory = (name, description, date, priority) => {
     const position = projectSelected.listOfTask.length + 1;
-    console.log(position);
     let taskState = "unfinished";
 
     function taskStatus(taskState){
-        if (taskState = "unfinished"){
-            taskState = "finished";
-        } else {
-            taskState = "unfinished";
+        if (taskState == "unfinished"){
+            this.taskState = "finished";
+        } else  if (taskState == "finished"){
+            this.taskState = "unfinished";
         }
+        
     }
+
+
     return  {name, description, date, position, priority, taskState, taskStatus};
 };
 
 const defaultTask = taskFactory("default task", "write anything here", "02/03/2023", "low");
 projectSelected.listOfTask.push(defaultTask);
 
-
+ 
+//const numberOfTasks = document.getElementById("number-of-tasks");
+//numberOfTasks.innerHTML = "Tasks + (" + projectSelected.listOfTask.length + ")";
 
 function showTaskList(){
 
     
     const taskSection = document.getElementById("task-list");
+   
 
     removeAllChildNodes(taskSection);
 
-    console.log("proyecto seleccionado" + projectSelected.listOfTask)
 
     for (let i = 0; i < projectSelected.listOfTask.length; i++ ){
 
+        const actualTask = projectSelected.listOfTask[i];
+
+        const taskCheck = document.createElement("INPUT");
+        taskCheck.setAttribute("type", "checkbox");
+ 
+        const taskSlot = document.createElement("div");
+        taskSlot.className = "taskSlot"
+
+        const taskMainElements = document.createElement("div");
+        taskMainElements.className = "taskMain";
+
         const taskName = document.createElement("div");
-        taskName.className = "taskName";
+        taskName.innerText = actualTask.name;
+        taskName.className = "taskName"
+
+        const taskIcons = document.createElement("div");
+        taskIcons.className = "taskIcons";
+
+        const taskDate = document.createElement("div");
+        taskDate.className = "taskDate";
+        taskDate.innerText = actualTask.date;
 
         const eraseButton = document.createElement("button");
         eraseButton.className = "eraseTask";
+        eraseButton.innerText = "X";
 
         eraseTaskButton(eraseButton, i);
 
-        newPosition(projectSelected.listOfTask[i], i);
+        newPosition(actualTask, i);
 
-        taskName.innerText = projectSelected.listOfTask[i].name;
-        eraseButton.innerText = "X";
+        taskCheckBox(taskCheck, actualTask, taskSlot);
 
-        taskName.appendChild(eraseButton);
-        taskSection.appendChild(taskName);
+
+
+        
+        taskMainElements.appendChild(taskCheck);
+        taskMainElements.appendChild(taskName);
+        taskSlot.appendChild(taskMainElements);
+        taskSlot.appendChild(taskIcons);
+        taskIcons.appendChild(taskDate);
+        taskIcons.appendChild(eraseButton);
+        taskSection.appendChild(taskSlot);
     }
 }
 
 showTaskList();
 
-console.log("default project" + defaultProject);
-console.log("default task" + defaultTask);
-console.log("project list" + projectList)
 
 
 //form to introduce task information
@@ -270,6 +306,8 @@ form.addEventListener("submit", function(event) {
 
     let newTask = taskFactory(name, description, date, priority);
 
+    console.log(date);
+
     addTaskToProject(newTask);
 
     console.log(projectSelected);
@@ -308,14 +346,13 @@ newProjectButton.addEventListener('click', function(e) {
 
 
 
-//function for the button to remove THIS task
+//function for the button to remove THIS task or Project
 
 function eraseTaskButton(eraseButton, i){
 
     
     eraseButton.addEventListener('click', function() {
         let taskIndex = projectSelected.listOfTask[i].position - 1;
-        console.log(projectSelected)
         removeTaskFromProject(taskIndex);
         showTaskList();
     })
@@ -330,3 +367,22 @@ function eraseProjectButton(eraseButton, i){
         showTaskList();
     })
 }
+
+
+//check the state of the checkbox of every task
+
+function taskCheckBox(taskCheck, actualTask, taskDom){
+
+    taskCheck.addEventListener("change", function(){
+        if (taskCheck.checked == true) {
+            actualTask.taskStatus("unfinished");
+            taskDom.classList.add("taskCompleted");
+            console.log(actualTask.taskState);
+        } else if (taskCheck.checked == false) {
+            actualTask.taskStatus("finished");
+            taskDom.classList.remove("taskCompleted");
+            console.log(actualTask.taskState);
+        }
+    })
+
+};

@@ -1,6 +1,6 @@
 import {mainPage} from "./dom.js";
 import '../dist/style.css';
-import { compareAsc, format } from 'date-fns'
+
 
 mainPage();
 
@@ -33,6 +33,8 @@ let projectSelected = [];
 
 function changeProjectSelected(project){
     projectSelected = project;
+    let projectTitle = document.getElementById("project-title");
+    projectTitle.innerHTML = projectSelected.name;
     return projectSelected;
 }
 
@@ -141,8 +143,8 @@ const defaultTask = taskFactory("default task", "write anything here", "02/03/20
 projectSelected.listOfTask.push(defaultTask);
 
  
-//const numberOfTasks = document.getElementById("number-of-tasks");
-//numberOfTasks.innerHTML = "Tasks + (" + projectSelected.listOfTask.length + ")";
+const numberOfTasks = document.getElementById("number-of-tasks");
+numberOfTasks.innerHTML = "Tasks + (" + projectSelected.listOfTask.length + ")";
 
 function showTaskList(){
 

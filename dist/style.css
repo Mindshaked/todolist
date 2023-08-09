@@ -39,6 +39,11 @@
     grid-row: 2 / 7;
     background-color: grey;
     padding-left: 7rem;
+    display:flex;
+}
+
+#project-title {
+    font-size: 20px;
 }
 
 

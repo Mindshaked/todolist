@@ -23,8 +23,22 @@ const projectFactory = (name) => {
 
 
 const defaultProject = projectFactory("default-project");
-let projectList = [defaultProject]
+let projectList = [defaultProject];
 
+
+
+function projectStorageSet() {
+    localStorage.setItem("projects", JSON.stringify(projectList));
+    }
+
+
+    
+
+function projectStorageGet() {
+    let projectGet = JSON.parse(localStorage.getItem("projects"));
+    console.log(projectGet)
+    return projectGet;
+}
 
 
 //change which project is selected
@@ -50,6 +64,8 @@ function showProjectList(){
     const projectSection = document.getElementById("project-list");
 
     removeAllChildNodes(projectSection);
+
+    projectList = projectStorageGet();
 
     for (let i= 0; i < projectList.length; i++){
 
@@ -144,12 +160,14 @@ projectSelected.listOfTask.push(defaultTask);
 
  
 const numberOfTasks = document.getElementById("number-of-tasks");
-numberOfTasks.innerHTML = "Tasks + (" + projectSelected.listOfTask.length + ")";
+numberOfTasks.innerHTML = "Tasks (" + projectSelected.listOfTask.length + ")";
 
 function showTaskList(){
 
     
     const taskSection = document.getElementById("task-list");
+    
+    
    
 
     removeAllChildNodes(taskSection);
@@ -182,6 +200,8 @@ function showTaskList(){
         const eraseButton = document.createElement("button");
         eraseButton.className = "eraseTask";
         eraseButton.innerText = "X";
+
+        
 
         eraseTaskButton(eraseButton, i);
 
@@ -245,6 +265,10 @@ function showProjectForm(){
 
 function addProjectToList(newProject){
     projectList.push(newProject);
+
+    projectStorageSet();
+
+
 }
 
 // form to add projects
@@ -252,15 +276,11 @@ function addProjectToList(newProject){
 projectForm.addEventListener("submit", function(event) {
 
     let projectName = projectForm["project-name"].value;
-    
-    console.log(projectName);
 
     let newProject = projectFactory(projectName);
 
     addProjectToList(newProject);
 
-
-    console.log(projectList);
 
     event.preventDefault();
 

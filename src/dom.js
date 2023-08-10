@@ -15,7 +15,7 @@ const mainPage = function loadMainPage(){
 
     const newTask = document.createElement("button");
     newTask.setAttribute("id", "task-button");
-    newTask.innerText = "New Task";
+    newTask.innerText = "+";
 
     const projectTitle = document.createElement("div");
     projectTitle.setAttribute("id", "project-title");
@@ -24,18 +24,26 @@ const mainPage = function loadMainPage(){
     newProject.setAttribute("id", "project-button");
     newProject.innerText = "New Project";
 
+    const newProjectSection = document.createElement("div");
+    newProjectSection.setAttribute("id", "newproject-section");
+
     const header = document.createElement("div");
     header.setAttribute("id", "header");
    
-    console.log(taskList);
+    console.log("tasklist" + taskList);
+    console.log("newTask button" + newTask)
     
-    taskList.appendChild(numberOfTasks);
-    header.appendChild(newProject);
+    newTaskSection.appendChild(newTask);
+    newTaskSection.appendChild(numberOfTasks);
+    newProjectSection.appendChild(newProject);
     header.appendChild(projectTitle);
     content.appendChild(projectList);
     content.appendChild(taskList);
     content.appendChild(header);
-    header.appendChild(newTask);
+    content.appendChild(newTaskSection);
+    content.appendChild(newProjectSection);
+   
+    
 
 }
 

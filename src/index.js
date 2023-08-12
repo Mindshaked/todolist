@@ -3,7 +3,7 @@ import '../dist/style.css';
 
 
 mainPage();
-
+let projectList = projectStorageGet();
 //remove all childs function for removing tasks and projects
 
 function removeAllChildNodes(parent) {
@@ -12,18 +12,40 @@ function removeAllChildNodes(parent) {
     }
 }
 
+console.log("projectlist2" + projectList);
+
+
 // project display functions and project factory
 
 const projectFactory = (name) => {
     const listOfTask = [];
+    
    // const position = projectList.length + 1;
    const position = 0;
     return {name: name, listOfTask, position};
 }
 
+//add default project if there's no previous projects stored
+
+if (projectList == []){
+
 
 const defaultProject = projectFactory("default-project");
-let projectList = [defaultProject];
+
+}
+
+
+if (projectList == []){
+    projectList = [defaultProject];
+} else if (projectList == null){
+    projectList = [defaultProject];
+} else {
+
+}
+
+console.log("projectlist" + projectList);
+
+
 
 
 
@@ -31,15 +53,37 @@ function projectStorageSet() {
     localStorage.setItem("projects", JSON.stringify(projectList));
     }
 
+//function taskStorageSet(project) {
+//    localStorage.setItem("tasks", JSON.stringify(project.listOfTask));
+//}
+   
 
-    
 
 function projectStorageGet() {
     let projectGet = JSON.parse(localStorage.getItem("projects"));
-    console.log(projectGet)
+    console.log("projectget" + projectGet)
     return projectGet;
 }
 
+
+
+//Tasks Local Storage
+
+//function taskStorageSet() {
+//    localStorage.setItem("tasks", JSON.stringify(projectSelected.listOfTask));
+//    }
+
+
+    
+
+//function taskStorageGet() {
+//    let taskGet = JSON.parse(localStorage.getItem("tasks"));
+ //   console.log(taskGet)
+ //   return taskGet;
+//}
+
+
+ 
 
 //change which project is selected
 
@@ -49,10 +93,14 @@ function changeProjectSelected(project){
     projectSelected = project;
     let projectTitle = document.getElementById("project-title");
     projectTitle.innerHTML = projectSelected.name;
+    console.log("project selected is" + projectSelected.name);
+    console.log(projectSelected.listOfTask);
     return projectSelected;
 }
 
-changeProjectSelected(defaultProject);
+changeProjectSelected(projectList[0]);
+
+console.log("tasksprojectselected" + projectSelected.listOfTask);
 
 
 
@@ -123,6 +171,8 @@ showProjectList();
 
 function addTaskToProject(taskName){
     projectSelected.listOfTask.push(taskName);
+    projectStorageSet()
+
 
 }
 
@@ -155,8 +205,14 @@ const taskFactory = (name, description, date, priority) => {
     return  {name, description, date, position, priority, taskState, taskStatus};
 };
 
+
+//if the project has no tasks stored, create a default task
+
+if (projectSelected.listOfTask == [] ){
 const defaultTask = taskFactory("default task", "write anything here", "02/03/2023", "low");
 projectSelected.listOfTask.push(defaultTask);
+
+}
 
  
 const numberOfTasks = document.getElementById("number-of-tasks");
@@ -171,6 +227,8 @@ function showTaskList(){
    
 
     removeAllChildNodes(taskSection);
+
+    //projectSelected.listOfTask = taskStorageGet();
 
 
     for (let i = 0; i < projectSelected.listOfTask.length; i++ ){
@@ -291,6 +349,8 @@ projectForm.addEventListener("submit", function(event) {
     const defaultTask = taskFactory("default task", "write anything here", "02/03/2023");
     projectSelected.listOfTask.push(defaultTask);
 
+    projectStorageSet();
+
     showProjectList();
 
     showTaskList();
@@ -305,6 +365,9 @@ projectForm.addEventListener("submit", function(event) {
 
 function removeProject(projectIndex){
     projectList.splice(projectIndex, 1);
+
+    projectStorageSet()
+    
 }
 
 
@@ -313,6 +376,8 @@ function removeProject(projectIndex){
 
 function removeTaskFromProject(taskIndex){
     projectSelected.listOfTask.splice(taskIndex, 1);
+
+    projectStorageSet()
 }
 
 
@@ -331,6 +396,7 @@ form.addEventListener("submit", function(event) {
     console.log(date);
 
     addTaskToProject(newTask);
+    
 
     console.log(projectSelected);
 
@@ -341,6 +407,8 @@ form.addEventListener("submit", function(event) {
     showProjectList();
 
     showTaskForm();
+
+    projectStorageSet()
 
 
 
@@ -385,6 +453,7 @@ function eraseProjectButton(eraseButton, i){
     eraseButton.addEventListener('click', function(){
         let projectIndex = projectList[i].position - 1;
         removeProject(projectIndex);
+        projectStorageSet()
         showProjectList();
         showTaskList();
     })

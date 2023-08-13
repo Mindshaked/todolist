@@ -127,6 +127,7 @@ body{
     padding-left: 15px;
     justify-content: space-around;
     transition: all 0.3s;
+    border-radius: 10px;
 
 }
 
@@ -175,10 +176,12 @@ body{
 .taskMain {
     display:flex;
     flex-direction:row;
+    align-items: center;
 }
 
 .taskName {
     margin-left: 0.4rem;
+    font-weight: 800;
 }
 
 #task-form {
@@ -187,16 +190,30 @@ body{
     flex-direction: column;
     top: 42vh;
     left: 42vw;
-    width: auto;;
+    width: auto;
     padding: 20px;
-    height: auto;
+    height: 100vh;
     background-color: #F6F3F3;
     border-radius: 15px;
     gap: 10px;
     visibility:hidden;
     z-index: 5;
-   
+}
+
+.task-description{
+    font-size: 13px;
+    margin-left: 1rem;
+    max-width: 25rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    opacity: 70%;
     
+   
+}
+
+#task-form>input{
+    border-style:none;
 }
 
 #project-form {

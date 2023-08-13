@@ -231,7 +231,12 @@ function showTaskList(){
 
         const taskName = document.createElement("div");
         taskName.innerText = actualTask.name;
-        taskName.className = "taskName"
+        taskName.className = "taskName";
+
+        const taskDesc = document.createElement("span");
+        taskDesc.innerText = actualTask.description;
+        taskDesc.className = "task-description";
+        
 
         const taskIcons = document.createElement("div");
         taskIcons.className = "taskIcons";
@@ -257,6 +262,7 @@ function showTaskList(){
         
         taskMainElements.appendChild(taskCheck);
         taskMainElements.appendChild(taskName);
+        taskMainElements.appendChild(taskDesc);
         taskSlot.appendChild(taskMainElements);
         taskSlot.appendChild(taskIcons);
         taskIcons.appendChild(taskDate);

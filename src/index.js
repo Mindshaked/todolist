@@ -156,6 +156,17 @@ function newPosition(item, i){
     
 }
 
+//change the task status
+//function taskStatus(taskState){
+   // if (taskState == "unfinished"){
+   //     this.taskState = "finished";
+   //     console.log(this.taskState);
+   // } else  if (taskState == "finished"){
+    //    this.taskState = "unfinished";
+    //    console.log(this.taskState);
+    //}
+    
+//};
 
 
 //Task display and task factory
@@ -165,20 +176,7 @@ const taskFactory = (name, description, date, priority) => {
     const position = projectSelected.listOfTask.length + 1;
     let taskState = "unfinished";
 
-    function taskStatus(taskState){
-        if (taskState == "unfinished"){
-            this.taskState = "finished";
-            console.log(this.taskState);
-        } else  if (taskState == "finished"){
-            this.taskState = "unfinished";
-            console.log(this.taskState);
-        }
-        
-    }
-
-
-
-    return  {name, description, date, position, priority, taskState, taskStatus};
+    return  {name, description, date, position, priority, taskState};
 };
 
 
@@ -213,15 +211,20 @@ function showTaskList(){
     for (let i = 0; i < projectSelected.listOfTask.length; i++ ){
 
         const actualTask = projectSelected.listOfTask[i];
-
-        const taskCheck = document.createElement("INPUT");
-        taskCheck.setAttribute("type", "checkbox");
  
         const taskSlot = document.createElement("div");
         taskSlot.className = "taskSlot"
         if (actualTask.priority == "high"){
-            taskSlot.style.borderleftcolor = "#ffb8b8";
+            taskSlot.style.bordercolor = "#ffb8b8";
         }
+
+        const taskCheck = document.createElement("INPUT");
+        taskCheck.setAttribute("type", "checkbox");
+        taskCheck.className = "check-box";
+        if (actualTask.taskState == "finished"){
+            taskSlot.classList.add("taskCompleted");
+            taskCheck.checked = true;
+        } 
 
         const taskMainElements = document.createElement("div");
         taskMainElements.className = "taskMain";
@@ -469,12 +472,16 @@ function taskCheckBox(taskCheck, actualTask, taskDom){
 
     taskCheck.addEventListener("change", function(){
         if (taskCheck.checked == true) {
-            actualTask.taskStatus("unfinished");
+            actualTask.taskState = "finished";
             taskDom.classList.add("taskCompleted");
+            console.log(actualTask.taskState);
+            projectStorageSet()
 
         } else if (taskCheck.checked == false) {
-            actualTask.taskStatus("finished");
+            actualTask.taskState = "unfinished";
             taskDom.classList.remove("taskCompleted");
+            console.log(actualTask.taskState);
+            projectStorageSet()
         }
     })
 

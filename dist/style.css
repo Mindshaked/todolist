@@ -1,9 +1,12 @@
+
+
 #content {
     display: grid;
     height: 100vh;
     grid-template-columns: repeat(12, 1fr);
     grid-template-rows: repeat(12, 1fr);
     background-color: #F6F3F3;
+    font-family:sans-serif;
 }
 
 #header {
@@ -13,6 +16,8 @@
     background-color:#F6F3F3;
     justify-content: center;
     align-items: center;
+    border-bottom-color: rgb(156, 156, 156);
+    border-bottom-width: solid 2px;
 }
 
 #task-button {
@@ -118,7 +123,11 @@
     padding-left: 15px;
     padding-right: 15px;
     border-radius: 10px;
+    background-color: rgb(235, 235, 235);
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
+
 
 .taskCompleted {
     opacity: 0.5;

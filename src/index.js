@@ -12,7 +12,7 @@ function removeAllChildNodes(parent) {
     }
 }
 
-console.log("projectlist2" + projectList);
+console.log("projectlist2" + projectList[0].name);
 
 
 // project display functions and project factory
@@ -27,24 +27,16 @@ const projectFactory = (name) => {
 
 //add default project if there's no previous projects stored
 
-if (projectList == []){
-
-
-const defaultProject = projectFactory("default-project");
-
-}
 
 
 if (projectList == []){
+    let defaultProject = projectFactory("default-project");
     projectList = [defaultProject];
 } else if (projectList == null){
     projectList = [defaultProject];
 } else {
 
 }
-
-console.log("projectlist" + projectList);
-
 
 
 
@@ -53,10 +45,7 @@ function projectStorageSet() {
     localStorage.setItem("projects", JSON.stringify(projectList));
     }
 
-//function taskStorageSet(project) {
-//    localStorage.setItem("tasks", JSON.stringify(project.listOfTask));
-//}
-   
+
 
 
 function projectStorageGet() {
@@ -65,22 +54,6 @@ function projectStorageGet() {
     return projectGet;
 }
 
-
-
-//Tasks Local Storage
-
-//function taskStorageSet() {
-//    localStorage.setItem("tasks", JSON.stringify(projectSelected.listOfTask));
-//    }
-
-
-    
-
-//function taskStorageGet() {
-//    let taskGet = JSON.parse(localStorage.getItem("tasks"));
- //   console.log(taskGet)
- //   return taskGet;
-//}
 
 
  
@@ -100,7 +73,7 @@ function changeProjectSelected(project){
 
 changeProjectSelected(projectList[0]);
 
-console.log("tasksprojectselected" + projectSelected.listOfTask);
+console.log("tasksprojectselected" + projectSelected.name);
 
 
 
@@ -113,7 +86,7 @@ function showProjectList(){
 
     removeAllChildNodes(projectSection);
 
-    projectList = projectStorageGet();
+    
 
     for (let i= 0; i < projectList.length; i++){
 
@@ -171,7 +144,6 @@ showProjectList();
 
 function addTaskToProject(taskName){
     projectSelected.listOfTask.push(taskName);
-    projectStorageSet()
 
 
 }
@@ -181,6 +153,7 @@ function addTaskToProject(taskName){
 
 function newPosition(item, i){
     item.position = i + 1;
+    
 }
 
 
@@ -195,11 +168,14 @@ const taskFactory = (name, description, date, priority) => {
     function taskStatus(taskState){
         if (taskState == "unfinished"){
             this.taskState = "finished";
+            console.log(this.taskState);
         } else  if (taskState == "finished"){
             this.taskState = "unfinished";
+            console.log(this.taskState);
         }
         
     }
+
 
 
     return  {name, description, date, position, priority, taskState, taskStatus};
@@ -215,8 +191,11 @@ projectSelected.listOfTask.push(defaultTask);
 }
 
  
+function showNumberOfTask(){
 const numberOfTasks = document.getElementById("number-of-tasks");
 numberOfTasks.innerHTML = "Tasks (" + projectSelected.listOfTask.length + ")";
+}
+
 
 function showTaskList(){
 
@@ -228,7 +207,7 @@ function showTaskList(){
 
     removeAllChildNodes(taskSection);
 
-    //projectSelected.listOfTask = taskStorageGet();
+    showNumberOfTask()
 
 
     for (let i = 0; i < projectSelected.listOfTask.length; i++ ){
@@ -240,6 +219,9 @@ function showTaskList(){
  
         const taskSlot = document.createElement("div");
         taskSlot.className = "taskSlot"
+        if (actualTask.priority == "high"){
+            taskSlot.style.borderleftcolor = "#ffb8b8";
+        }
 
         const taskMainElements = document.createElement("div");
         taskMainElements.className = "taskMain";
@@ -380,8 +362,15 @@ function removeTaskFromProject(taskIndex){
     projectStorageSet()
 }
 
+//form validation for task
 
-
+//function validateForm(value){
+  //  if (value == "") {
+    //    alert(value + "cannot be empty");
+      //  return false;
+  //  }
+//
+//}
 //create a new task when the form is submitted
 
 form.addEventListener("submit", function(event) {
@@ -391,11 +380,17 @@ form.addEventListener("submit", function(event) {
     let date = form['date'].value;
     let priority = form['priority'].value;
 
+    
+
+    
+
     let newTask = taskFactory(name, description, date, priority);
 
     console.log(date);
 
     addTaskToProject(newTask);
+
+    projectStorageSet()
     
 
     console.log(projectSelected);
@@ -408,7 +403,7 @@ form.addEventListener("submit", function(event) {
 
     showTaskForm();
 
-    projectStorageSet()
+   
 
 
 
@@ -444,16 +439,24 @@ function eraseTaskButton(eraseButton, i){
     eraseButton.addEventListener('click', function() {
         let taskIndex = projectSelected.listOfTask[i].position - 1;
         removeTaskFromProject(taskIndex);
+        projectStorageSet()
+        console.log(projectList);
         showTaskList();
     })
 };
 
 function eraseProjectButton(eraseButton, i){
 
+    
     eraseButton.addEventListener('click', function(){
+        if (projectList.length == 1){
+            alert("You need atleast one project created");
+            return;
+        }
         let projectIndex = projectList[i].position - 1;
         removeProject(projectIndex);
         projectStorageSet()
+        console.log(projectList);
         showProjectList();
         showTaskList();
     })
@@ -468,11 +471,10 @@ function taskCheckBox(taskCheck, actualTask, taskDom){
         if (taskCheck.checked == true) {
             actualTask.taskStatus("unfinished");
             taskDom.classList.add("taskCompleted");
-            console.log(actualTask.taskState);
+
         } else if (taskCheck.checked == false) {
             actualTask.taskStatus("finished");
             taskDom.classList.remove("taskCompleted");
-            console.log(actualTask.taskState);
         }
     })
 

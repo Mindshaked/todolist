@@ -269,6 +269,18 @@ function showTaskList(){
         taskIcons.appendChild(eraseButton);
         taskSection.appendChild(taskSlot);
     }
+
+    function createNewTaskSlot(){
+    const newTaskSlot = document.createElement("div");
+    newTaskSlot.setAttribute("id", "new-task-slot");
+    newTaskSlot.innerText = "New Task";
+    taskSection.appendChild(newTaskSlot);
+
+    fastNewTask(newTaskSlot);
+
+    }
+
+    createNewTaskSlot();
 }
 
 showTaskList();
@@ -438,8 +450,25 @@ newProjectButton.addEventListener('click', function(e) {
     showProjectForm();
 })
 
+//add fast new task function
 
+function fastNewTask(newTaskFastButton){
 
+    
+    let newTaskInput = document.createElement("input");
+    newTaskFastButton.addEventListener('click', () => {
+    newTaskInput.setAttribute("type", "text");
+    newTaskInput.placeholder = "Add a name for your task";
+    newTaskFastButton.innerText = "";
+    newTaskFastButton.appendChild(newTaskInput);
+
+})
+
+newTaskInput.removeEventListener('click', () => {
+    console.log("event deactivated");
+    })
+
+};
 //function for the button to remove THIS task or Project
 
 function eraseTaskButton(eraseButton, i){

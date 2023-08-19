@@ -152,6 +152,28 @@ body{
     margin-bottom: 5px;
 }
 
+.taskSlotExpanded {
+    width: 70%;
+    flex-wrap: wrap;
+    flex-direction: row;
+    height: 8rem;
+    align-items:baseline;
+    justify-content: space-between;
+    display: flex;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
+    border-radius: 10px;
+    background-color: rgb(235, 235, 235);
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.taskSlotExpanded:hover {
+    background-color: rgb(207, 207, 207);
+    transition: 0.3s;
+}
+
 #new-task-slot{
     width: 70%;
     flex-wrap: wrap;
@@ -232,7 +254,13 @@ body{
     text-overflow: ellipsis;
     opacity: 70%;
     
-   
+}
+
+.task-description-expanded{
+    font-size: 13px;
+    margin-left: 1rem;
+    max-width: 25rem;
+    opacity: 70%;
 }
 
 #task-form>input{

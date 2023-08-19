@@ -197,7 +197,26 @@ function createNewTaskSlot(){
 
 
 
-    
+    //add expand functionality to tasks
+
+    function expandTaskFunctionality(task){
+        let taskDescription = document.querySelector(".task-description");
+        console.log("esto es taskdesc" + taskDescription);
+        console.log(task);
+        task.addEventListener("click", function(e){
+
+            if (task.classList == "taskSlot"){
+            task.classList.remove("taskSlot");
+            task.classList.add("taskSlotExpanded");
+            taskDescription.classList.remove("task-description");
+            taskDescription.classList.add("task-description-expanded");
+        } else {
+            task.classList.remove("taskSlotExpanded");
+            task.classList.add("taskSlot");
+            
+        }
+        })
+    } 
 
     //show tasks from selected project
 
@@ -222,6 +241,8 @@ function showTaskList(){
             taskSlot.classList.add("urgent-task");
         }
 
+        expandTaskFunctionality(taskSlot)
+
         const taskCheck = document.createElement("INPUT");
         taskCheck.setAttribute("type", "checkbox");
         taskCheck.className = "check-box";
@@ -240,6 +261,7 @@ function showTaskList(){
         const taskDesc = document.createElement("span");
         taskDesc.innerText = actualTask.description;
         taskDesc.className = "task-description";
+        
         
 
         const taskIcons = document.createElement("div");

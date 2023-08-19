@@ -156,17 +156,7 @@ function newPosition(item, i){
     
 }
 
-//change the task status
-//function taskStatus(taskState){
-   // if (taskState == "unfinished"){
-   //     this.taskState = "finished";
-   //     console.log(this.taskState);
-   // } else  if (taskState == "finished"){
-    //    this.taskState = "unfinished";
-    //    console.log(this.taskState);
-    //}
-    
-//};
+
 
 
 //Task display and task factory
@@ -194,11 +184,25 @@ const numberOfTasks = document.getElementById("number-of-tasks");
 numberOfTasks.innerHTML = "Tasks (" + projectSelected.listOfTask.length + ")";
 }
 
+function createNewTaskSlot(){
+    const newTaskSlot = document.createElement("div");
+    newTaskSlot.setAttribute("id", "new-task-slot");
+    newTaskSlot.innerText = "New Task";
+    taskSection.appendChild(newTaskSlot);
+    fastNewTask(newTaskSlot);
+    }
+
+
+    const taskSection = document.getElementById("task-list");
+
+
+
+    
+
+    //show tasks from selected project
 
 function showTaskList(){
 
-    
-    const taskSection = document.getElementById("task-list");
     
     
    
@@ -215,7 +219,7 @@ function showTaskList(){
         const taskSlot = document.createElement("div");
         taskSlot.className = "taskSlot"
         if (actualTask.priority == "high"){
-            taskSlot.style.bordercolor = "#ffb8b8";
+            taskSlot.classList.add("urgent-task");
         }
 
         const taskCheck = document.createElement("INPUT");
@@ -270,17 +274,11 @@ function showTaskList(){
         taskSection.appendChild(taskSlot);
     }
 
-    function createNewTaskSlot(){
-    const newTaskSlot = document.createElement("div");
-    newTaskSlot.setAttribute("id", "new-task-slot");
-    newTaskSlot.innerText = "New Task";
-    taskSection.appendChild(newTaskSlot);
-
-    fastNewTask(newTaskSlot);
-
-    }
-
+  
+    
     createNewTaskSlot();
+  
+    
 }
 
 showTaskList();
@@ -392,6 +390,12 @@ function removeTaskFromProject(taskIndex){
   //  }
 //
 //}
+
+
+
+
+
+
 //create a new task when the form is submitted
 
 form.addEventListener("submit", function(event) {
@@ -454,19 +458,52 @@ newProjectButton.addEventListener('click', function(e) {
 
 function fastNewTask(newTaskFastButton){
 
-    
-    let newTaskInput = document.createElement("input");
-    newTaskFastButton.addEventListener('click', () => {
-    newTaskInput.setAttribute("type", "text");
-    newTaskInput.placeholder = "Add a name for your task";
-    newTaskFastButton.innerText = "";
-    newTaskFastButton.appendChild(newTaskInput);
+  
+    function addFastTask(){
 
-})
-
-newTaskInput.removeEventListener('click', () => {
-    console.log("event deactivated");
+        let newTaskInput = document.createElement("input");
+        newTaskInput.setAttribute("type", "text");
+        newTaskInput.setAttribute("id", "new-task-slot-input");
+        newTaskInput.placeholder = "Add a name for your task";
+        newTaskFastButton.innerText = "";
+        newTaskFastButton.appendChild(newTaskInput);
+        
+        newTaskInput.addEventListener('keypress', function (e){
+        if (e.key === 'Enter'){
+            let name = newTaskInput.value;
+            let description = "";
+            let date = ""
+            let priority = "normal";
+        
+            
+        
+            
+        
+            let newTask = taskFactory(name, description, date, priority);
+        
+            console.log(date);
+        
+            addTaskToProject(newTask);
+        
+            projectStorageSet()
+            
+        
+            console.log(projectSelected);
+        
+            e.preventDefault();
+        
+            showTaskList();
+        
+            showProjectList();
+        }
     })
+    
+};
+
+console.log("fast New Task Run");
+newTaskFastButton.addEventListener('click', addFastTask());
+
+newTaskFastButton.removeEventListener('click', addFastTask());
 
 };
 //function for the button to remove THIS task or Project

@@ -171,6 +171,9 @@ body{
     background-color: #d4d4d4;
 }
 
+.urgent-task {
+    border-left: 7px solid rgb(212, 71, 71);
+}
 
 
 .taskCompleted {

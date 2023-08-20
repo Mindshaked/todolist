@@ -233,6 +233,10 @@ body{
     font-weight: 800;
 }
 
+.task-notes{
+    flex-wrap: wrap;
+}
+
 #task-form {
     position:absolute;
     display: flex;
@@ -247,6 +251,7 @@ body{
     gap: 10px;
     visibility:hidden;
     z-index: 5;
+
 }
 
 .task-description{

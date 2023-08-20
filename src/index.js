@@ -162,11 +162,11 @@ function newPosition(item, i){
 //Task display and task factory
 
 
-const taskFactory = (name, description, date, priority) => {
+const taskFactory = (name, description, date, priority, notes) => {
     const position = projectSelected.listOfTask.length + 1;
     let taskState = "unfinished";
 
-    return  {name, description, date, position, priority, taskState};
+    return  {name, description, date, position, priority, taskState, notes};
 };
 
 
@@ -199,7 +199,7 @@ function createNewTaskSlot(){
  
     //add expand functionality to tasks
 
-    function expandTaskFunctionality(task, taskDescription){
+    function expandTaskFunctionality(task, taskDescription, taskNotes){
         console.log("esto es taskdesc" + taskDescription);
         
         
@@ -210,13 +210,14 @@ function createNewTaskSlot(){
             task.classList.add("taskSlotExpanded");
             taskDescription.classList.remove("task-description");
             taskDescription.classList.add("task-description-expanded");
-       
+            task.appendChild(taskNotes);
             
         } else {
             task.classList.remove("taskSlotExpanded");
             task.classList.add("taskSlot");
             taskDescription.classList.remove("task-description-expanded");
             taskDescription.classList.add("task-description");
+            task.removeChild(taskNotes)
         }
         })
     } 
@@ -262,8 +263,10 @@ function showTaskList(){
         const taskDesc = document.createElement("span");
         taskDesc.innerText = actualTask.description;
         taskDesc.className = "task-description";
-        
-        
+
+        const taskNotes = document.createElement("div");
+        taskNotes.innerText = actualTask.notes;
+        taskNotes.className = "task-notes";
 
         const taskIcons = document.createElement("div");
         taskIcons.className = "taskIcons";
@@ -277,7 +280,7 @@ function showTaskList(){
         eraseButton.innerText = "X";
 
         
-        expandTaskFunctionality(taskSlot, taskDesc)
+        expandTaskFunctionality(taskSlot, taskDesc, taskNotes)
 
         eraseTaskButton(eraseButton, i);
 
@@ -428,12 +431,13 @@ form.addEventListener("submit", function(event) {
     let description = form['description'].value;
     let date = form['date'].value;
     let priority = form['priority'].value;
+    let notes = form['notes'].value;
 
     
 
     
 
-    let newTask = taskFactory(name, description, date, priority);
+    let newTask = taskFactory(name, description, date, priority, notes);
 
     console.log(date);
 

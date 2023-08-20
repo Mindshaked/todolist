@@ -196,24 +196,27 @@ function createNewTaskSlot(){
     const taskSection = document.getElementById("task-list");
 
 
-
+ 
     //add expand functionality to tasks
 
-    function expandTaskFunctionality(task){
-        let taskDescription = document.querySelector(".task-description");
+    function expandTaskFunctionality(task, taskDescription){
         console.log("esto es taskdesc" + taskDescription);
-        console.log(task);
+        
+        
         task.addEventListener("click", function(e){
 
-            if (task.classList == "taskSlot"){
+            if (task.classList.contains("taskSlot")){
             task.classList.remove("taskSlot");
             task.classList.add("taskSlotExpanded");
             taskDescription.classList.remove("task-description");
             taskDescription.classList.add("task-description-expanded");
+       
+            
         } else {
             task.classList.remove("taskSlotExpanded");
             task.classList.add("taskSlot");
-            
+            taskDescription.classList.remove("task-description-expanded");
+            taskDescription.classList.add("task-description");
         }
         })
     } 
@@ -240,8 +243,6 @@ function showTaskList(){
         if (actualTask.priority == "high"){
             taskSlot.classList.add("urgent-task");
         }
-
-        expandTaskFunctionality(taskSlot)
 
         const taskCheck = document.createElement("INPUT");
         taskCheck.setAttribute("type", "checkbox");
@@ -276,6 +277,7 @@ function showTaskList(){
         eraseButton.innerText = "X";
 
         
+        expandTaskFunctionality(taskSlot, taskDesc)
 
         eraseTaskButton(eraseButton, i);
 

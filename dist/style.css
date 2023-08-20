@@ -1,3 +1,7 @@
+html {
+    scroll-behavior: smooth;
+  }
+
 body{
     background-color: #F6F3F3;
 }
@@ -210,7 +214,7 @@ body{
 .taskIcons {
     display: flex;
     flex-direction: row;
-    align-items:center;
+    
 }
 
 .taskDate {
@@ -221,7 +225,7 @@ body{
 .taskMain {
     display:flex;
     flex-direction:row;
-    align-items: center;
+    
 }
 
 .taskName {
@@ -261,6 +265,7 @@ body{
     margin-left: 1rem;
     max-width: 25rem;
     opacity: 70%;
+    word-wrap: break-word;
 }
 
 #task-form>input{

@@ -3,7 +3,9 @@ import '../dist/style.css';
 
 
 mainPage();
+
 let projectList = projectStorageGet();
+
 //remove all childs function for removing tasks and projects
 
 function removeAllChildNodes(parent) {
@@ -210,14 +212,14 @@ function createNewTaskSlot(){
             task.classList.add("taskSlotExpanded");
             taskDescription.classList.remove("task-description");
             taskDescription.classList.add("task-description-expanded");
-            task.appendChild(taskNotes);
+            taskDescription.appendChild(taskNotes);
             
         } else {
             task.classList.remove("taskSlotExpanded");
             task.classList.add("taskSlot");
             taskDescription.classList.remove("task-description-expanded");
             taskDescription.classList.add("task-description");
-            task.removeChild(taskNotes)
+            taskDescription.removeChild(taskNotes)
         }
         })
     } 
@@ -265,7 +267,7 @@ function showTaskList(){
         taskDesc.className = "task-description";
 
         const taskNotes = document.createElement("div");
-        taskNotes.innerText = actualTask.notes;
+        taskNotes.innerText = "Notes: " + actualTask.notes;
         taskNotes.className = "task-notes";
 
         const taskIcons = document.createElement("div");
@@ -410,13 +412,13 @@ function removeTaskFromProject(taskIndex){
 
 //form validation for task
 
-//function validateForm(value){
-  //  if (value == "") {
-    //    alert(value + "cannot be empty");
-      //  return false;
-  //  }
-//
-//}
+function validateForm(input){
+    if (input == "") {
+        alert("You need to add a name for your task");
+        return false;
+    }
+
+}
 
 
 
@@ -427,6 +429,7 @@ function removeTaskFromProject(taskIndex){
 
 form.addEventListener("submit", function(event) {
 
+    
     let name = form['name'].value;
     let description = form['description'].value;
     let date = form['date'].value;
@@ -434,7 +437,10 @@ form.addEventListener("submit", function(event) {
     let notes = form['notes'].value;
 
     
-
+    if (validateForm(name) == false) {
+        event.preventDefault();
+        return;
+    }
     
 
     let newTask = taskFactory(name, description, date, priority, notes);

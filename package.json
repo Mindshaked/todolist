@@ -20,7 +20,10 @@
   "homepage": "https://github.com/Mindshaked/todolist#readme",
   "devDependencies": {
     "css-loader": "^6.8.1",
+    "file-loader": "^6.2.0",
+    "html-loader": "^1.3.2",
     "style-loader": "^3.3.3",
+    "svg-inline-loader": "^0.8.2",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4"
   },

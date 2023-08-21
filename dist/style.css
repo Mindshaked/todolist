@@ -175,12 +175,13 @@ body{
     background-color: rgb(235, 235, 235);
     margin-top: 5px;
     margin-bottom: 5px;
+    
 }
 
 .taskSlotExpanded:hover {
     background-color: rgb(207, 207, 207);
     transition: 0.3s;
-    transform: scale(1.1);
+    
 }
 
 #new-task-slot{
@@ -247,7 +248,19 @@ body{
 
 .task-notes{
     flex-wrap: wrap;
-    margin-top: 15px;
+    margin-top: 25px;
+}
+
+.task-edit{
+    margin-right: 10px;
+    height:1.5rem;
+    width:1.5rem;
+    opacity: 50%;
+    transition: all 0.3s;
+}
+
+.task-edit:hover{
+    opacity: 100%;
 }
 
 #task-form {

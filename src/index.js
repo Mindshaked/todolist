@@ -14,6 +14,7 @@ function removeAllChildNodes(parent) {
     }
 }
 
+
 console.log("projectlist2" + projectList[0].name);
 
 
@@ -212,7 +213,14 @@ function createNewTaskSlot(){
             task.classList.add("taskSlotExpanded");
             taskDescription.classList.remove("task-description");
             taskDescription.classList.add("task-description-expanded");
+            if (taskDescription.innerHTML == ""){
+            taskDescription.innerHTML = "Add a description";
+        }
+            if (taskNotes != undefined){
             taskDescription.appendChild(taskNotes);
+            } else {
+
+            }
             
         } else {
             task.classList.remove("taskSlotExpanded");
@@ -220,6 +228,9 @@ function createNewTaskSlot(){
             taskDescription.classList.remove("task-description-expanded");
             taskDescription.classList.add("task-description");
             taskDescription.removeChild(taskNotes)
+            if (taskDescription.innerHTML == "Add a description"){
+                taskDescription.innerHTML = "";
+            }
         }
         })
     } 
@@ -277,12 +288,19 @@ function showTaskList(){
         taskDate.className = "taskDate";
         taskDate.innerText = actualTask.date;
 
+        const taskEdit = document.createElement("img");
+        taskEdit.className = "task-edit";
+        taskEdit.src = "./assets/images/icons/edit-button.svg"
+
+
         const eraseButton = document.createElement("button");
         eraseButton.className = "eraseTask";
         eraseButton.innerText = "X";
 
         
         expandTaskFunctionality(taskSlot, taskDesc, taskNotes)
+
+        editTaskDetails(taskEdit, i);
 
         eraseTaskButton(eraseButton, i);
 
@@ -299,6 +317,7 @@ function showTaskList(){
         taskSlot.appendChild(taskMainElements);
         taskSlot.appendChild(taskIcons);
         taskIcons.appendChild(taskDate);
+        taskIcons.appendChild(taskEdit);
         taskIcons.appendChild(eraseButton);
         taskSection.appendChild(taskSlot);
     }
@@ -502,8 +521,9 @@ function fastNewTask(newTaskFastButton){
         newTaskFastButton.innerText = "";
         newTaskFastButton.appendChild(newTaskInput);
         
-        newTaskInput.addEventListener('keypress', function (e){
-        if (e.key === 'Enter'){
+      
+
+        function addFastTask(e){
             let name = newTaskInput.value;
             let description = "";
             let date = ""
@@ -530,7 +550,27 @@ function fastNewTask(newTaskFastButton){
         
             showProjectList();
         }
-    })
+        
+        
+        if (newTaskInput.innerText != ""){
+            document.addEventListener('click', function(e){
+                addFastTask(e);
+                console.log("clicked document");
+            });
+    
+            };
+
+        
+        newTaskInput.addEventListener('keypress', function (e){
+        if (e.key === 'Enter'){
+            addFastTask(e);
+            
+        }
+    });
+
+   
+
+        
     
 };
 
@@ -570,6 +610,71 @@ function eraseProjectButton(eraseButton, i){
         showTaskList();
     })
 }
+
+
+
+// edit button functionality
+
+function editTaskDetails(taskEditButton, i){
+
+    taskEditButton.addEventListener('click', function(){
+
+        showTaskForm();
+
+        form.addEventListener("submit", function(event) {
+
+    
+            let name = form['name'].value;
+            let description = form['description'].value;
+            let date = form['date'].value;
+            let priority = form['priority'].value;
+            let notes = form['notes'].value;
+        
+            
+            if (validateForm(name) == false) {
+                event.preventDefault();
+                return;
+            }
+            
+            name = i.name;
+            
+        
+            i.name = name;
+            i.description = description;
+            i.date = date;
+            i.priority = priority;
+            i.notes = notes;
+        
+            console.log(date);
+        
+        
+            projectStorageSet()
+            
+        
+            console.log(projectSelected);
+        
+            event.preventDefault();
+        
+            showTaskList();
+        
+            showProjectList();
+        
+            showTaskForm();
+        
+           
+        
+        
+        
+        });
+
+
+    });
+
+
+
+}
+
+
 
 
 //check the state of the checkbox of every task

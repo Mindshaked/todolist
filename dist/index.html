@@ -35,6 +35,33 @@
 
 
     </form>
+
+    <form id="edit-task-form">
+
+        <label for="name">Name</label>
+        <input id="name" type="text" name="name">
+
+        <label for="description">Description</label>
+        <input id="description" type="text" name="description">
+
+        <label for="date">Date</label>
+        <input id="date" type="date" name="date">
+
+        <label for="priority">Priority</label>
+        <select id="priority" name="priority">
+            <option value="high">Urgent</option>
+            <option selected="selected" value="normal">Normal</option>
+            <option value="low">Low</option>
+
+        </select>
+
+        <label for="notes">Notes</label>
+        <input id="notes" type="text" name="notes">
+
+        <input type="submit" value="Confirm edit">
+
+
+    </form>
     
     <form id="project-form">
 

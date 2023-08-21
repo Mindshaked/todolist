@@ -280,6 +280,22 @@ body{
 
 }
 
+#edit-task-form {
+    position:absolute;
+    display: flex;
+    flex-direction: column;
+    top: 42vh;
+    left: 42vw;
+    width: auto;
+    padding: 20px;
+    height: 100vh;
+    background-color: #F6F3F3;
+    border-radius: 15px;
+    gap: 10px;
+    visibility:hidden;
+    z-index: 5;
+}
+
 .task-description{
     font-size: 13px;
     margin-left: 1rem;

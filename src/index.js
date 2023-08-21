@@ -300,7 +300,7 @@ function showTaskList(){
         
         expandTaskFunctionality(taskSlot, taskDesc, taskNotes)
 
-        editTaskDetails(taskEdit, i);
+        editTaskDetails(taskEdit, actualTask);
 
         eraseTaskButton(eraseButton, i);
 
@@ -333,11 +333,14 @@ showTaskList();
 
 
 
-//form to introduce task information
+//form to introduce and edit task information
 
-const form = document.getElementById('task-form');
+const newTaskForm = document.getElementById('task-form');
+const editTaskForm = document.getElementById('edit-task-form');
 
-function showTaskForm(){
+console.log(editTaskForm.style.visibility)
+
+function showTaskForm(form){
         if (form.style.visibility !== 'visible'){
     
             form.style.visibility = 'visible';
@@ -446,14 +449,15 @@ function validateForm(input){
 
 //create a new task when the form is submitted
 
-form.addEventListener("submit", function(event) {
+newTaskForm.addEventListener("submit", function(event) {
 
-    
-    let name = form['name'].value;
-    let description = form['description'].value;
-    let date = form['date'].value;
-    let priority = form['priority'].value;
-    let notes = form['notes'].value;
+
+
+    let name = newTaskForm['name'].value;
+    let description = newTaskForm['description'].value;
+    let date = newTaskForm['date'].value;
+    let priority = newTaskForm['priority'].value;
+    let notes = newTaskForm['notes'].value;
 
     
     if (validateForm(name) == false) {
@@ -464,12 +468,10 @@ form.addEventListener("submit", function(event) {
 
     let newTask = taskFactory(name, description, date, priority, notes);
 
-    console.log(date);
-
+    
     addTaskToProject(newTask);
 
     projectStorageSet()
-    
 
     console.log(projectSelected);
 
@@ -479,7 +481,7 @@ form.addEventListener("submit", function(event) {
 
     showProjectList();
 
-    showTaskForm();
+    showTaskForm(newTaskForm);
 
    
 
@@ -494,7 +496,13 @@ const newTaskButton = document.getElementById("task-button");
 
 newTaskButton.addEventListener('click', function(e) {
 
-    showTaskForm();
+    form['name'].value = "";
+    form['description'].value = "";
+    form['date'].value = "";
+    form['priority'].value = "";
+    form['notes'].value = "";
+
+    showTaskForm(newTaskForm);
 });
 
 
@@ -528,12 +536,13 @@ function fastNewTask(newTaskFastButton){
             let description = "";
             let date = ""
             let priority = "normal";
+            let notes = ""; 
         
             
         
             
         
-            let newTask = taskFactory(name, description, date, priority);
+            let newTask = taskFactory(name, description, date, priority, notes);
         
             console.log(date);
         
@@ -613,22 +622,33 @@ function eraseProjectButton(eraseButton, i){
 
 
 
+
+
 // edit button functionality
 
-function editTaskDetails(taskEditButton, i){
+function editTaskDetails(taskEditButton, task){
 
     taskEditButton.addEventListener('click', function(){
 
-        showTaskForm();
+        showTaskForm(editTaskForm);
 
-        form.addEventListener("submit", function(event) {
+       
+        
+        editTaskForm['name'].value = task.name;
+        editTaskForm['description'].value = task.description;
+        editTaskForm['date'].value = task.date;
+        editTaskForm['priority'].value = task.priority;
+        editTaskForm['notes'].value = task.value;
 
-    
-            let name = form['name'].value;
+        editTaskForm.addEventListener("submit", function(event) {
+
+            
+        
+            let name = editTaskForm['name'].value;
             let description = form['description'].value;
-            let date = form['date'].value;
-            let priority = form['priority'].value;
-            let notes = form['notes'].value;
+            let date = editTaskForm['date'].value;
+            let priority = editTaskForm['priority'].value;
+            let notes = editTaskForm['notes'].value;
         
             
             if (validateForm(name) == false) {
@@ -636,30 +656,27 @@ function editTaskDetails(taskEditButton, i){
                 return;
             }
             
-            name = i.name;
             
         
-            i.name = name;
-            i.description = description;
-            i.date = date;
-            i.priority = priority;
-            i.notes = notes;
+            task.name = name;
+            task.description = description;
+            task.date = date;
+            task.priority = priority;
+            task.notes = notes;
         
-            console.log(date);
+           
         
-        
+            console.log("edit succesful");
             projectStorageSet()
             
-        
-            console.log(projectSelected);
         
             event.preventDefault();
         
             showTaskList();
         
             showProjectList();
-        
-            showTaskForm();
+           
+            showTaskForm(editTaskForm);
         
            
         

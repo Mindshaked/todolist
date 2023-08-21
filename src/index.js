@@ -333,14 +333,16 @@ showTaskList();
 
 
 
-//form to introduce and edit task information
+//hide or show forms
 
 const newTaskForm = document.getElementById('task-form');
 const editTaskForm = document.getElementById('edit-task-form');
+const projectForm = document.getElementById("project-form");
+
 
 console.log(editTaskForm.style.visibility)
 
-function showTaskForm(form){
+function showForm(form){
         if (form.style.visibility !== 'visible'){
     
             form.style.visibility = 'visible';
@@ -353,22 +355,7 @@ function showTaskForm(form){
     
 }
 
-//form to introduce project information
 
-const projectForm = document.getElementById("project-form");
-
-function showProjectForm(){
-    if (projectForm.style.visibility !== 'visible'){
-
-        projectForm.style.visibility = 'visible';
-        
-
-    } else {
-        projectForm.style.visibility = 'hidden';
-
-    } 
-
-}
 
 
 //add project to the projectlist
@@ -394,7 +381,7 @@ projectForm.addEventListener("submit", function(event) {
 
     event.preventDefault();
 
-    showProjectForm();
+    showForm(projectForm);
 
     changeProjectSelected(newProject);
 
@@ -481,7 +468,7 @@ newTaskForm.addEventListener("submit", function(event) {
 
     showProjectList();
 
-    showTaskForm(newTaskForm);
+    showForm(newTaskForm);
 
    
 
@@ -496,13 +483,7 @@ const newTaskButton = document.getElementById("task-button");
 
 newTaskButton.addEventListener('click', function(e) {
 
-    form['name'].value = "";
-    form['description'].value = "";
-    form['date'].value = "";
-    form['priority'].value = "";
-    form['notes'].value = "";
-
-    showTaskForm(newTaskForm);
+    showForm(newTaskForm);
 });
 
 
@@ -512,7 +493,7 @@ const newProjectButton = document.getElementById("project-button");
 
 newProjectButton.addEventListener('click', function(e) {
 
-    showProjectForm();
+    showForm(projectForm);
 })
 
 //add fast new task function
@@ -630,7 +611,7 @@ function editTaskDetails(taskEditButton, task){
 
     taskEditButton.addEventListener('click', function(){
 
-        showTaskForm(editTaskForm);
+        showForm(editTaskForm);
 
        
         
@@ -645,7 +626,7 @@ function editTaskDetails(taskEditButton, task){
             
         
             let name = editTaskForm['name'].value;
-            let description = form['description'].value;
+            let description = editTaskForm['description'].value;
             let date = editTaskForm['date'].value;
             let priority = editTaskForm['priority'].value;
             let notes = editTaskForm['notes'].value;
@@ -676,7 +657,7 @@ function editTaskDetails(taskEditButton, task){
         
             showProjectList();
            
-            showTaskForm(editTaskForm);
+            showForm(editTaskForm);
         
            
         

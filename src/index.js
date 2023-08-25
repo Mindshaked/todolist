@@ -351,6 +351,7 @@ const projectForm = document.getElementById("project-form");
 
 console.log(editTaskForm.style.visibility)
 
+/*
 function showForm(form){
         if (form.style.visibility !== 'visible'){
     
@@ -362,6 +363,19 @@ function showForm(form){
     
         } 
     
+}
+*/
+
+function showForm(form){
+    if (form.style.width !== "20%"){
+        form.style.width = "20%";
+        form.style.visibility = 'visible';
+        form.style.right = "0vw";
+    } else {
+        form.style.width = "0%";
+        form.style.visibility = 'hidden';
+        form.style.right = "-10vw";
+    }
 }
 
 

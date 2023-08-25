@@ -1,10 +1,14 @@
 html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
+    
   }
 
 body{
     background-color: #F6F3F3;
-}
+    
+    
+ }
 
 #content {
     display: grid;
@@ -267,33 +271,55 @@ body{
     position:absolute;
     display: flex;
     flex-direction: column;
-    top: 42vh;
-    left: 42vw;
-    width: auto;
+    top: 0vh;
+    right: -10vw;
     padding: 20px;
-    height: 100vh;
-    background-color: #F6F3F3;
+    height: 100%;
+    width: 0%;
+    background-color: #dfdfdf;
     border-radius: 15px;
     gap: 10px;
-    visibility:hidden;
+    visibility:visible;
     z-index: 5;
-
+    font-family:sans-serif;
+    justify-content: center;
+    align-items: flex-start;
+    transform: translateX(15%);
+    transition: 0.5s;
+    padding: 2rem;
+    
 }
+
+#task-form > label {
+    font-size: 14px;
+}
+
+#task-form > input {
+    transition: 0.3s;
+}
+
+
 
 #edit-task-form {
     position:absolute;
     display: flex;
     flex-direction: column;
-    top: 42vh;
-    left: 42vw;
-    width: auto;
+    top: 0vh;
+    right: -10vw;
     padding: 20px;
-    height: 100vh;
-    background-color: #F6F3F3;
+    height: 100%;
+    width: 0%;
+    background-color: #dfdfdf;
     border-radius: 15px;
     gap: 10px;
-    visibility:hidden;
+    visibility:visible;
     z-index: 5;
+    font-family:sans-serif;
+    justify-content: center;
+    align-items: flex-start;
+    transform: translateX(15%);
+    transition: 0.5s;
+    padding: 2rem;
 }
 
 .task-description{
@@ -317,22 +343,30 @@ body{
 
 #task-form>input{
     border-style:none;
+    width: 11rem;
+    border-radius: 8px;
 }
 
 #project-form {
     position:absolute;
     display: flex;
     flex-direction: column;
-    top: 42vh;
-    left: 42vw;
-    width: auto;;
+    top: 0vh;
+    right: -10vw;
     padding: 20px;
-    height: auto;
-    background-color: grey;
+    height: 100%;
+    width: 0%;
+    background-color: #dfdfdf;
     border-radius: 15px;
     gap: 10px;
-    visibility:hidden;
+    visibility:visible;
     z-index: 5;
+    font-family:sans-serif;
+    justify-content: center;
+    align-items: flex-start;
+    transform: translateX(15%);
+    transition: 0.5s;
+    padding: 2rem;
    
     
 }

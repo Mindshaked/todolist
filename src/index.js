@@ -168,10 +168,17 @@ function newPosition(item, i){
 const taskFactory = (name, description, date, priority, notes) => {
     const position = projectSelected.listOfTask.length + 1;
     let taskState = "unfinished";
+    const editTask = (name, description, date, priority, notes) => {
+        this.name = name;
+        this.description = description;
+        this.date = date;
+        this.priority = priority;
+        this.notes = notes;
+        console.log("edit task works");
+    }
 
-    return  {name, description, date, position, priority, taskState, notes};
+    return  {name, description, date, position, priority, taskState, notes, editTask};
 };
-
 
 //if the project has no tasks stored, create a default task
 
@@ -182,10 +189,13 @@ projectSelected.listOfTask.push(defaultTask);
 }
 
  
+//show the total number of tasks at the top of the page
 function showNumberOfTask(){
 const numberOfTasks = document.getElementById("number-of-tasks");
 numberOfTasks.innerHTML = "Tasks (" + projectSelected.listOfTask.length + ")";
 }
+
+// function to create a new div from a task
 
 function createNewTaskSlot(){
     const newTaskSlot = document.createElement("div");
@@ -196,7 +206,7 @@ function createNewTaskSlot(){
     }
 
 
-    const taskSection = document.getElementById("task-list");
+const taskSection = document.getElementById("task-list");
 
 
  
@@ -235,12 +245,11 @@ function createNewTaskSlot(){
         })
     } 
 
+
+
     //show tasks from selected project
 
 function showTaskList(){
-
-    
-    
    
 
     removeAllChildNodes(taskSection);
@@ -308,7 +317,7 @@ function showTaskList(){
 
         taskCheckBox(taskCheck, actualTask, taskSlot);
 
-
+        
 
         
         taskMainElements.appendChild(taskCheck);
@@ -425,6 +434,8 @@ function validateForm(input){
     if (input == "") {
         alert("You need to add a name for your task");
         return false;
+    } else {
+        return true;
     }
 
 }
@@ -515,7 +526,7 @@ function fastNewTask(newTaskFastButton){
         function addFastTask(e){
             let name = newTaskInput.value;
             let description = "";
-            let date = ""
+            let date = "";
             let priority = "normal";
             let notes = ""; 
         
@@ -525,14 +536,14 @@ function fastNewTask(newTaskFastButton){
         
             let newTask = taskFactory(name, description, date, priority, notes);
         
-            console.log(date);
+         
         
             addTaskToProject(newTask);
         
             projectStorageSet()
             
         
-            console.log(projectSelected);
+            
         
             e.preventDefault();
         
@@ -541,7 +552,7 @@ function fastNewTask(newTaskFastButton){
             showProjectList();
         }
         
-        
+        /*
         if (newTaskInput.innerText != ""){
             document.addEventListener('click', function(e){
                 addFastTask(e);
@@ -549,7 +560,7 @@ function fastNewTask(newTaskFastButton){
             });
     
             };
-
+*/
         
         newTaskInput.addEventListener('keypress', function (e){
         if (e.key === 'Enter'){
@@ -564,7 +575,7 @@ function fastNewTask(newTaskFastButton){
     
 };
 
-console.log("fast New Task Run");
+
 newTaskFastButton.addEventListener('click', addFastTask());
 
 newTaskFastButton.removeEventListener('click', addFastTask());
@@ -611,19 +622,27 @@ function editTaskDetails(taskEditButton, task){
 
     taskEditButton.addEventListener('click', function(){
 
-        showForm(editTaskForm);
+        
+
+       //EVERY TIME YOU PRESS A DIFFERENT EDIT TASK FORM, IT CHANGES ALL OF THE PREVIOUS EDITED TASKS.
+        
+       
+       editTaskForm['name'].value = task.name;
+       editTaskForm['description'].value = task.description;
+       editTaskForm['date'].value = task.date;
+       editTaskForm['priority'].value = task.priority;
+       editTaskForm['notes'].value = task.value;
+
+       console.log(task);
+       console.log(task.name, task.description, task.date, task.priority, task.value);
+
+       showForm(editTaskForm);
+       
 
        
-        
-        editTaskForm['name'].value = task.name;
-        editTaskForm['description'].value = task.description;
-        editTaskForm['date'].value = task.date;
-        editTaskForm['priority'].value = task.priority;
-        editTaskForm['notes'].value = task.value;
+        editTaskForm.addEventListener("submit", function editTaskFunction(event) {
 
-        editTaskForm.addEventListener("submit", function(event) {
-
-            
+           
         
             let name = editTaskForm['name'].value;
             let description = editTaskForm['description'].value;
@@ -632,23 +651,30 @@ function editTaskDetails(taskEditButton, task){
             let notes = editTaskForm['notes'].value;
         
             
-            if (validateForm(name) == false) {
+            if (validateForm(name) === false) {
                 event.preventDefault();
-                return;
+                console.log("not validated");
+            } else if (validateForm(name) || task.name == ""){
+                console.log("validated, previous name was empty");
+                
+            } else {
+
             }
             
             
-        
+            
+            
             task.name = name;
             task.description = description;
             task.date = date;
             task.priority = priority;
             task.notes = notes;
-        
-           
-        
-            console.log("edit succesful");
+
+
+            console.log(" properties of the form" + name + description + date + priority + notes)
+            console.log("task. cosas: " + task.name, task.description, task.date, task.priority, task.notes);
             projectStorageSet()
+
             
         
             event.preventDefault();
@@ -656,15 +682,17 @@ function editTaskDetails(taskEditButton, task){
             showTaskList();
         
             showProjectList();
+
            
             showForm(editTaskForm);
         
            
-        
+            this.removeEventListener('submit', editTaskFunction)
         
         
         });
 
+      
 
     });
 

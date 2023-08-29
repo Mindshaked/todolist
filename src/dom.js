@@ -20,6 +20,8 @@ const mainPage = function loadMainPage(){
     const projectTitle = document.createElement("div");
     projectTitle.setAttribute("id", "project-title");
 
+    const switchModeButton = document.querySelector(".toggle-btn");
+    
     const newProject = document.createElement("button");
     newProject.setAttribute("id", "project-button");
     newProject.innerText = "New Project";
@@ -37,6 +39,7 @@ const mainPage = function loadMainPage(){
     newTaskSection.appendChild(numberOfTasks);
     newProjectSection.appendChild(newProject);
     header.appendChild(projectTitle);
+    header.appendChild(switchModeButton);
     content.appendChild(projectList);
     content.appendChild(taskList);
     content.appendChild(header);

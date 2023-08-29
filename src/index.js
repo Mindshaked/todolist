@@ -2,9 +2,11 @@ import {mainPage} from "./dom.js";
 import '../dist/style.css';
 
 
+
 mainPage();
 
 let projectList = projectStorageGet();
+
 
 //remove all childs function for removing tasks and projects
 
@@ -412,6 +414,7 @@ projectForm.addEventListener("submit", function(event) {
     projectSelected.listOfTask.push(defaultTask);
 
     projectStorageSet();
+   
 
     showProjectList();
 
@@ -429,6 +432,7 @@ function removeProject(projectIndex){
     projectList.splice(projectIndex, 1);
 
     projectStorageSet()
+   
     
 }
 
@@ -440,6 +444,7 @@ function removeTaskFromProject(taskIndex){
     projectSelected.listOfTask.splice(taskIndex, 1);
 
     projectStorageSet()
+ 
 }
 
 //form validation for task
@@ -484,6 +489,7 @@ newTaskForm.addEventListener("submit", function(event) {
     addTaskToProject(newTask);
 
     projectStorageSet()
+   
 
     console.log(projectSelected);
 
@@ -556,6 +562,7 @@ function fastNewTask(newTaskFastButton){
         
             projectStorageSet()
             
+            
         
             
         
@@ -604,7 +611,7 @@ function eraseTaskButton(eraseButton, i){
         let taskIndex = projectSelected.listOfTask[i].position - 1;
         removeTaskFromProject(taskIndex);
         projectStorageSet()
-        console.log(projectList);
+       ç
         showTaskList();
     })
 };
@@ -620,7 +627,6 @@ function eraseProjectButton(eraseButton, i){
         let projectIndex = projectList[i].position - 1;
         removeProject(projectIndex);
         projectStorageSet()
-        console.log(projectList);
         showProjectList();
         showTaskList();
     })
@@ -688,6 +694,7 @@ function editTaskDetails(taskEditButton, task){
             console.log(" properties of the form" + name + description + date + priority + notes)
             console.log("task. cosas: " + task.name, task.description, task.date, task.priority, task.notes);
             projectStorageSet()
+           
 
             
         
@@ -737,3 +744,75 @@ function taskCheckBox(taskCheck, actualTask, taskDom){
     })
 
 };
+
+
+//Switch between day and night mode
+
+const projectSection = document.getElementById("newproject-section");
+const allChildElements = document.getElementById("content").childNodes;
+const contentElement = document.getElementById("content");
+const taskSlots = document.querySelectorAll(".taskSlot");
+const newTaskSlot = document.getElementById("new-task-slot")
+let task_array = [...taskSlots];
+const htmlElement = document.documentElement;
+
+
+console.log(taskSlots);
+let mode = "day";
+
+
+function switchMode(){
+    
+    console.log("switchmode activated");
+    if (mode == "day"){
+        console.log("night mode");
+        mode = "night";
+
+        for (let i=0; i<allChildElements.length; i++) {
+            if (allChildElements[i].nodeName.toLowerCase() == 'div'){
+                allChildElements[i].style.backgroundColor = "#525252";
+                allChildElements[i].style.color = "white";
+                
+            }
+        }
+
+        task_array.forEach(div => {
+            div.style.backgroundColor = "#666e73";
+            console.log(div);
+        });
+
+        newTaskSlot.style.backgroundColor = "#525252";
+        projectSection.style.backgroundColor = "#525252";
+        htmlElement.style.backgroundColor = "#525252";
+        contentElement.style.backgroundColor = "#525252";
+        
+    } else {
+        console.log("day mode");    
+        mode = "day";
+
+        for (let i=0; i<allChildElements.length; i++) {
+            if (allChildElements[i].nodeName.toLowerCase() == 'div'){
+                allChildElements[i].style.backgroundColor = "#F6F3F3";
+                allChildElements[i].style.color = "black";
+            }
+        }
+
+        task_array.forEach(div => {
+            div.style.backgroundColor = "#ebebeb";
+            console.log(div);
+        });
+         
+        newTaskSlot.style.backgroundColor = "#F6F3F3";
+        console.log(taskSlots)
+        
+}};
+
+const switchModeButton = document.querySelector(".toggle-btn");
+
+switchModeButton.addEventListener("click", () => {
+    console.log("button toggled");
+    switchModeButton.classList.toggle("active");
+    switchMode()
+});
+
+

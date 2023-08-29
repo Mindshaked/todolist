@@ -833,6 +833,9 @@ function switchMode(){
         projectSection.style.backgroundColor = "#F6F3F3";
         htmlElement.style.backgroundColor = "#F6F3F3";
         contentElement.style.backgroundColor = "#F6F3F3";
+        newTaskForm.style.backgroundColor = "#F6F3F3";
+        editTaskForm.style.backgroundColor = "#F6F3F3";
+        projectForm.style.backgroundColor = "#F6F3F3";
         
         
 }};

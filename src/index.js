@@ -830,7 +830,10 @@ function switchMode(){
         });
          
         newTaskSlot.style.backgroundColor = "#F6F3F3";
-        console.log(taskSlots)
+        projectSection.style.backgroundColor = "#F6F3F3";
+        htmlElement.style.backgroundColor = "#F6F3F3";
+        contentElement.style.backgroundColor = "#F6F3F3";
+        
         
 }};
 

@@ -225,27 +225,51 @@ const taskSection = document.getElementById("task-list");
             task.classList.add("taskSlotExpanded");
             taskDescription.classList.remove("task-description");
             taskDescription.classList.add("task-description-expanded");
-            if (taskDescription.innerHTML == ""){
-            taskDescription.innerHTML = "Add a description";
-        }
-            if (taskNotes != undefined){
-            taskDescription.appendChild(taskNotes);
-            } else {
+                if (taskDescription.innerHTML == ""){
+                taskDescription.innerHTML = "Add a description";
+                }
 
+                if (taskNotes != undefined){
+                taskDescription.appendChild(taskNotes);
+                } 
+
+            } else if (task.classList.contains("taskSlotNight")){
+                task.classList.remove("taskSlotNight");
+                task.classList.add("taskSlotNightExpanded");
+                taskDescription.classList.remove("task-description");
+                taskDescription.classList.add("task-description-expanded");
+
+                    if (taskDescription.innerHTML == ""){
+                        taskDescription.innerHTML = "Add a description";
+                        }
+    
+                    if (taskNotes != undefined){
+                    taskDescription.appendChild(taskNotes);
+                    } 
+
+            } else if (task.classList.contains("taskSlotExpanded")){
+                task.classList.remove("taskSlotExpanded");
+                task.classList.add("taskSlot");
+                taskDescription.classList.remove("task-description-expanded");
+                taskDescription.classList.add("task-description");
+                taskDescription.removeChild(taskNotes);
+                if (taskDescription.innerHTML == "Add a description"){
+                    taskDescription.innerHTML = "";
+                }
+            } else if (task.classList.contains("taskSlotNightExpanded")){
+                task.classList.remove("taskSlotNightExpanded");
+                task.classList.add("taskSlotNight");
+                taskDescription.classList.remove("task-description-expanded");
+                taskDescription.classList.add("task-description");
+                taskDescription.removeChild(taskNotes);
+                if (taskDescription.innerHTML == "Add a description"){
+                    taskDescription.innerHTML = "";
+                }
             }
-            
-        } else {
-            task.classList.remove("taskSlotExpanded");
-            task.classList.add("taskSlot");
-            taskDescription.classList.remove("task-description-expanded");
-            taskDescription.classList.add("task-description");
-            taskDescription.removeChild(taskNotes)
-            if (taskDescription.innerHTML == "Add a description"){
-                taskDescription.innerHTML = "";
-            }
-        }
-        })
-    } 
+        
+        });
+           
+    }
 
 
 
@@ -777,7 +801,7 @@ function switchMode(){
         }
 
         task_array.forEach(div => {
-            div.style.backgroundColor = "#666e73";
+            div.className = "taskSlotNight";
             console.log(div);
         });
 
@@ -785,6 +809,9 @@ function switchMode(){
         projectSection.style.backgroundColor = "#525252";
         htmlElement.style.backgroundColor = "#525252";
         contentElement.style.backgroundColor = "#525252";
+        newTaskForm.style.backgroundColor = "#5b637d";
+        editTaskForm.style.backgroundColor = "#5b637d";
+        projectForm.style.backgroundColor = "#5b637d";
         
     } else {
         console.log("day mode");    
@@ -798,7 +825,7 @@ function switchMode(){
         }
 
         task_array.forEach(div => {
-            div.style.backgroundColor = "#ebebeb";
+            div.className = "taskSlot";
             console.log(div);
         });
          

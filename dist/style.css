@@ -171,6 +171,27 @@ body{
     margin-bottom: 5px;
 }
 
+.taskSlotNight {
+    width: 70%;
+    flex-wrap: wrap;
+    flex-direction: row;
+    height: 4rem;
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 10px;
+    background-color: #666e73;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.taskSlotNight:hover {
+    background-color: #455b68;
+    transition: 0.3s;
+}
+
 .taskSlotExpanded {
     width: 70%;
     flex-wrap: wrap;
@@ -186,6 +207,28 @@ body{
     margin-top: 5px;
     margin-bottom: 5px;
     
+}
+
+.taskSlotNightExpanded {
+    width: 70%;
+    flex-wrap: wrap;
+    flex-direction: row;
+    height: 8rem;
+    justify-content: space-between;
+    display: flex;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
+    border-radius: 10px;
+    background-color: #666e73;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    
+}
+
+.taskSlotNightExpanded {
+    background-color: #46545e;
+    transition: 0.3s;
 }
 
 .taskSlotExpanded:hover {
